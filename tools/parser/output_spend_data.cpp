@@ -34,7 +34,7 @@ SpendDataType rawAddressSpendData(const blocksci::RawAddress &address, const blo
     return rawAddressSpendDataTable.at(static_cast<size_t>(address.type))(address,scripts);
 }
 
-AnySpendData::AnySpendData(const AnyScriptOutput &output) : wrapped(mpark::visit(SpendDataGenerator(), output.wrapped)) {}
+AnySpendData::AnySpendData(const AnyScriptOutput &output) : wrapped(std::visit(SpendDataGenerator(), output.wrapped)) {}
 
 AnySpendData::AnySpendData(const blocksci::RawAddress &address, const blocksci::ScriptAccess &scripts) : wrapped(rawAddressSpendData(address, scripts)) {}
 

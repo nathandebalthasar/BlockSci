@@ -12,10 +12,7 @@
 #include <blocksci/core/address_types.hpp>
 #include <blocksci/core/address_type_meta.hpp>
 
-namespace mpark {
-    template <typename... Types>
-    class variant;
-} // namespace mpark
+#include <variant>
 
 namespace blocksci {
     class CBitcoinAddress;
@@ -33,7 +30,7 @@ namespace blocksci {
 
     class ScriptAccess;
     
-    using ScriptVariant = to_variadic_t<to_address_tuple_t<ScriptAddress>, mpark::variant>;
+    using ScriptVariant = to_variadic_t<to_address_tuple_t<ScriptAddress>, std::variant>;
     
     namespace script {
         using Pubkey = ScriptAddress<AddressType::PUBKEY>;

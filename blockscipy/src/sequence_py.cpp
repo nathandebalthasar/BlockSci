@@ -61,9 +61,9 @@ struct ToListVisitor {
 void addCommonIteratorMethods(pybind11::class_<GenericIterator> &cl) {
     cl
     .def("_group_by", [](GenericIterator &range, SimpleProxy &grouper, SimpleProxy &eval) -> pybind11::dict {
-        return mpark::visit(GroupByVisitor{grouper, eval}, range.getGenericIterator().var);
+        return std::visit(GroupByVisitor{grouper, eval}, range.getGenericIterator().var);
     })
     .def("to_list", [](GenericIterator &range) { 
-        return mpark::visit(ToListVisitor{}, range.getGenericIterator().var);
+        return std::visit(ToListVisitor{}, range.getGenericIterator().var);
     }, "Returns a list of all of the objects in the range");
 }

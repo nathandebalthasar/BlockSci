@@ -11,7 +11,7 @@
 #include <wjfilesystem/path.h>
 
 void UTXOAddressState::addOutput(const AnySpendData &spendData, const blocksci::InoutPointer &pointer) {
-    mpark::visit([&](const auto &spendData) { this->addOutput(spendData, pointer); }, spendData.wrapped);
+    std::visit([&](const auto &spendData) { this->addOutput(spendData, pointer); }, spendData.wrapped);
 }
 
 template<blocksci::AddressType::Enum type>

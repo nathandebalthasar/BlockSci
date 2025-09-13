@@ -31,7 +31,7 @@ bool isValidPubkey(ranges::subrange<const unsigned char *> &vch1) {
     return false;
 }
 
-using ScriptOutputDataType = blocksci::to_variadic_t<blocksci::to_address_tuple_t<ScriptOutputData>, mpark::variant>;
+using ScriptOutputDataType = blocksci::to_variadic_t<blocksci::to_address_tuple_t<ScriptOutputData>, std::variant>;
 using valtype = ranges::subrange<const unsigned char *>;
 
 static bool MatchPayToPubkey(const CScriptView& script, valtype& pubkey)
@@ -147,26 +147,26 @@ struct ScriptOutputGenerator {
     }
 };
                      
-AnyScriptOutput::AnyScriptOutput(const blocksci::CScriptView &scriptPubKey, bool p2shActivated, bool witnessActivated) : wrapped(mpark::visit(ScriptOutputGenerator(), extractScriptData(scriptPubKey, p2shActivated, witnessActivated))) {}
+AnyScriptOutput::AnyScriptOutput(const blocksci::CScriptView &scriptPubKey, bool p2shActivated, bool witnessActivated) : wrapped(std::visit(ScriptOutputGenerator(), extractScriptData(scriptPubKey, p2shActivated, witnessActivated))) {}
 
 blocksci::RawAddress AnyScriptOutput::address() const {
-    return mpark::visit([&](auto &output) { return blocksci::RawAddress{output.scriptNum, output.address_v}; }, wrapped);
+    return std::visit([&](auto &output) { return blocksci::RawAddress{output.scriptNum, output.address_v}; }, wrapped);
 }
 
 bool AnyScriptOutput::isNew() const {
-    return mpark::visit([&](auto &output) { return output.isNew; }, wrapped);
+    return std::visit([&](auto &output) { return output.isNew; }, wrapped);
 }
 
 bool AnyScriptOutput::isValid() const {
-    return mpark::visit([&](auto &output) { return output.data.isValid(); }, wrapped);
+    return std::visit([&](auto &output) { return output.data.isValid(); }, wrapped);
 }
 
 blocksci::AddressType::Enum AnyScriptOutput::type() const {
-    return mpark::visit([&](auto &output) { return output.address_v; }, wrapped);
+    return std::visit([&](auto &output) { return output.address_v; }, wrapped);
 }
 
 uint32_t AnyScriptOutput::resolve(AddressState &state) {
-    return mpark::visit([&](auto &output) { return output.resolve(state); }, wrapped);
+    return std::visit([&](auto &output) { return output.resolve(state); }, wrapped);
 }
 
 // MARK: TX_PUBKEY

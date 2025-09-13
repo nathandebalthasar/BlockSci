@@ -21,7 +21,7 @@ namespace blocksci {
     
     template <AddressType::Enum type>
     using ScriptRange = ranges::any_view<ScriptAddress<type>, ranges::category::random_access | ranges::category::sized>;
-    using ScriptRangeVariant = to_variadic_t<to_address_tuple_t<ScriptRange>, mpark::variant>;
+    using ScriptRangeVariant = to_variadic_t<to_address_tuple_t<ScriptRange>, std::variant>;
     
     uint32_t BLOCKSCI_EXPORT getScriptCount(AddressType::Enum type, blocksci::DataAccess &access);
 

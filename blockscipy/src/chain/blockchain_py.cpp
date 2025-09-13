@@ -22,7 +22,7 @@ using namespace blocksci;
 
 template <AddressType::Enum type>
 using PythonScriptRange = Range<ScriptAddress<type>>;
-using PythonScriptRangeVariant = to_variadic_t<to_address_tuple_t<PythonScriptRange>, mpark::variant>;
+using PythonScriptRangeVariant = to_variadic_t<to_address_tuple_t<PythonScriptRange>, std::variant>;
 
 namespace {
     template<blocksci::AddressType::Enum type>

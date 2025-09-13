@@ -15,20 +15,20 @@
 #include <pybind11/stl.h>
 
 #include <range/v3/utility/optional.hpp>
-#include <mpark/variant.hpp>
+#include <variant>
 
 namespace pybind11 { namespace detail {
     // Specifies the function used to visit the variant -- `apply_visitor` instead of `visit`
     template <>
-    struct visit_helper<mpark::variant> {
+    struct visit_helper<std::variant> {
         template <typename... Args>
-        static auto call(Args &&...args) -> decltype(mpark::visit(args...)) {
-            return mpark::visit(args...);
+        static auto call(Args &&...args) -> decltype(std::visit(args...)) {
+            return std::visit(args...);
         }
     };
 
     template <typename... Ts>
-    struct type_caster<mpark::variant<Ts...>> : variant_caster<mpark::variant<Ts...>> {};
+    struct type_caster<std::variant<Ts...>> : variant_caster<std::variant<Ts...>> {};
 
     template <> struct type_caster<blocksci::AnyScript> {
     private:
@@ -61,7 +61,7 @@ namespace pybind11 { namespace detail {
                 return false;
 
             auto any = cast_op<blocksci::AnyScript &&>(std::move(inner_caster));
-            mpark::visit([&](auto address) {
+            std::visit([&](auto address) {
                 value = address;
             }, any.wrapped);
             return true;

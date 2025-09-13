@@ -15,7 +15,7 @@
 #include <internal/address_info.hpp>
 #include <internal/script_access.hpp>
 
-#include <mpark/variant.hpp>
+#include <variant>
 
 using namespace blocksci;
 
@@ -26,7 +26,7 @@ template <AddressType::Enum type>
 struct ScriptWrapper {
     ScriptDataPointer<type> data;
 };
-using ScriptDataVariant = to_variadic_t<to_address_tuple_t<ScriptWrapper>, mpark::variant>;
+using ScriptDataVariant = to_variadic_t<to_address_tuple_t<ScriptWrapper>, std::variant>;
 
 template<AddressType::Enum type>
 struct ScriptDataCreateFunctor {
@@ -43,7 +43,7 @@ public:
     AnyScriptData(const RawAddress &address, const ScriptAccess &access) : wrapped(scriptDataCreator.at(static_cast<size_t>(address.type))(address.scriptNum, access)) {}
     
     void visitPointers(const std::function<void(const RawAddress &)> &func) {
-        mpark::visit([&](auto &scriptAddress) { scriptAddress.data->visitPointers(func); }, wrapped);
+        std::visit([&](auto &scriptAddress) { scriptAddress.data->visitPointers(func); }, wrapped);
     }
     
     ScriptDataVariant wrapped;

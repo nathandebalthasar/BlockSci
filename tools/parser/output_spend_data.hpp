@@ -14,7 +14,7 @@
 #include <blocksci/core/core_fwd.hpp>
 #include <blocksci/core/script_data.hpp>
 
-#include <mpark/variant.hpp>
+#include <variant>
 
 namespace blocksci {
     class ScriptAccess;
@@ -41,7 +41,7 @@ struct SpendData<blocksci::AddressType::Enum::MULTISIG> {
     SpendData(const blocksci::RawAddress &address, const blocksci::ScriptAccess &scripts);
 };
 
-using SpendDataType = blocksci::to_variadic_t<blocksci::to_address_tuple_t<SpendData>, mpark::variant>;
+using SpendDataType = blocksci::to_variadic_t<blocksci::to_address_tuple_t<SpendData>, std::variant>;
 
 class AnySpendData {
 public:

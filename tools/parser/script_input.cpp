@@ -28,18 +28,18 @@ struct ScriptInputGenerator {
     }
 };
 
-AnyScriptInput::AnyScriptInput(const InputView &inputView, const blocksci::CScriptView &scriptView, const RawTransaction &tx, const AnySpendData &spendData) : wrapped(mpark::visit(ScriptInputGenerator(inputView, scriptView, tx), spendData.wrapped)) {}
+AnyScriptInput::AnyScriptInput(const InputView &inputView, const blocksci::CScriptView &scriptView, const RawTransaction &tx, const AnySpendData &spendData) : wrapped(std::visit(ScriptInputGenerator(inputView, scriptView, tx), spendData.wrapped)) {}
 
 void AnyScriptInput::process(AddressState &state) {
-    mpark::visit([&](auto &scriptInput) { scriptInput.process(state); }, wrapped);
+    std::visit([&](auto &scriptInput) { scriptInput.process(state); }, wrapped);
 }
 
 void AnyScriptInput::setScriptNum(uint32_t scriptNum) {
-    mpark::visit([&](auto &input) { input.scriptNum = scriptNum; }, wrapped);
+    std::visit([&](auto &input) { input.scriptNum = scriptNum; }, wrapped);
 }
 
 blocksci::RawAddress AnyScriptInput::address() const {
-    return mpark::visit([&](auto &input) { return blocksci::RawAddress{input.scriptNum, input.address_v}; }, wrapped);
+    return std::visit([&](auto &input) { return blocksci::RawAddress{input.scriptNum, input.address_v}; }, wrapped);
 }
 
 std::pair<AnyScriptOutput, std::unique_ptr<AnyScriptInput>> p2shGenerate(const InputView &inputView, const blocksci::CScriptView &scriptView, const RawTransaction &tx, const SpendData<blocksci::AddressType::Enum::SCRIPTHASH> &) {

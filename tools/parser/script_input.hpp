@@ -14,7 +14,7 @@
 
 #include <internal/script_view.hpp>
 
-#include <mpark/variant.hpp>
+#include <variant>
 
 #include <bitset>
 
@@ -127,7 +127,7 @@ private:
     ScriptInputData(std::pair<AnyScriptOutput, std::unique_ptr<AnyScriptInput>> data);
 };
 
-using ScriptInputType = blocksci::to_variadic_t<blocksci::to_address_tuple_t<ScriptInput>, mpark::variant>;
+using ScriptInputType = blocksci::to_variadic_t<blocksci::to_address_tuple_t<ScriptInput>, std::variant>;
 
 class AnyScriptInput {
 public:

@@ -17,15 +17,15 @@ struct BlocksciIteratorTypeObjectCaster {
 };
 
 std::any BlocksciIteratorType::toAny() const {
-    return mpark::visit([&](auto &r) -> std::any { return r; }, var);
+    return std::visit([&](auto &r) -> std::any { return r; }, var);
 }
 
 pybind11::object BlocksciIteratorType::toObject() const {
-    return mpark::visit(BlocksciIteratorTypeObjectCaster{}, var);
+    return std::visit(BlocksciIteratorTypeObjectCaster{}, var);
 }
 
 RawIterator<BlocksciType> BlocksciIteratorType::toGeneric() {
-    return mpark::visit([&](auto &r) -> RawIterator<BlocksciType> { 
+    return std::visit([&](auto &r) -> RawIterator<BlocksciType> {
         return r | ranges::views::transform([](auto && v) -> BlocksciType {
             return BlocksciType{std::forward<decltype(v)>(v)};
         });
@@ -33,7 +33,7 @@ RawIterator<BlocksciType> BlocksciIteratorType::toGeneric() {
 }
 
 RawIterator<std::any> BlocksciIteratorType::toAnySequence() {
-    return mpark::visit([&](auto &r) -> RawIterator<std::any> { 
+    return std::visit([&](auto &r) -> RawIterator<std::any> {
         return r | ranges::views::transform([](auto && v) -> std::any {
             return std::forward<decltype(v)>(v);
         });

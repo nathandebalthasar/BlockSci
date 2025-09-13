@@ -20,19 +20,19 @@ scriptFiles(blocksci::apply(blocksci::DedupAddressType::all(), [&] (auto tag) {
 }
 
 blocksci::OffsetType AddressWriter::serializeNewOutput(const AnyScriptOutput &output, uint32_t txNum, bool topLevel) {
-    return mpark::visit([&](auto &scriptOutput) { return this->serializeNewOutput(scriptOutput, txNum, topLevel); }, output.wrapped);
+    return std::visit([&](auto &scriptOutput) { return this->serializeNewOutput(scriptOutput, txNum, topLevel); }, output.wrapped);
 }
 
 void AddressWriter::serializeExistingOutput(const AnyScriptOutput &output, bool topLevel) {
-    mpark::visit([&](auto &scriptOutput) { return this->serializeExistingOutput(scriptOutput, topLevel); }, output.wrapped);
+    std::visit([&](auto &scriptOutput) { return this->serializeExistingOutput(scriptOutput, topLevel); }, output.wrapped);
 }
 
 void AddressWriter::serializeInput(const AnyScriptInput &input, uint32_t txNum, uint32_t outputTxNum) {
-    mpark::visit([&](auto &scriptInput) { this->serializeInput(scriptInput, txNum, outputTxNum); }, input.wrapped);
+    std::visit([&](auto &scriptInput) { this->serializeInput(scriptInput, txNum, outputTxNum); }, input.wrapped);
 }
 
 void AddressWriter::serializeWrappedScript(const AnyScriptInput &input, uint32_t txNum, uint32_t outputTxNum) {
-    mpark::visit([&](auto &scriptInput) { this->serializeWrappedScript(scriptInput.data, txNum, outputTxNum); }, input.wrapped);
+    std::visit([&](auto &scriptInput) { this->serializeWrappedScript(scriptInput.data, txNum, outputTxNum); }, input.wrapped);
 }
 
 void AddressWriter::serializeOutputImp(const ScriptOutput<AddressType::PUBKEY> &output, ScriptFile<DedupAddressType::PUBKEY> &file, bool topLevel) {

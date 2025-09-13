@@ -25,19 +25,19 @@ struct BlockSciRangeToIterator {
 };
 
 std::any BlocksciRangeType::toAny() const {
-    return mpark::visit([&](auto &r) -> std::any { return r; }, var);
+    return std::visit([&](auto &r) -> std::any { return r; }, var);
 }
 
 pybind11::object BlocksciRangeType::toObject() const {
-    return mpark::visit(BlocksciRangeTypeObjectCaster{}, var);
+    return std::visit(BlocksciRangeTypeObjectCaster{}, var);
 }
 
 BlocksciIteratorType BlocksciRangeType::toIterator() {
-	return mpark::visit(BlockSciRangeToIterator{}, var);
+	return std::visit(BlockSciRangeToIterator{}, var);
 }
 
 RawRange<BlocksciType> BlocksciRangeType::toGeneric() {
-	return mpark::visit([&](auto &r) -> RawRange<BlocksciType> { 
+	return std::visit([&](auto &r) -> RawRange<BlocksciType> {
 		return r | ranges::views::transform([](auto && v) -> BlocksciType {
 			return BlocksciType{std::forward<decltype(v)>(v)};
 		});
@@ -45,7 +45,7 @@ RawRange<BlocksciType> BlocksciRangeType::toGeneric() {
 }
 
 RawRange<std::any> BlocksciRangeType::toAnySequence() {
-    return mpark::visit([&](auto &r) -> RawRange<std::any> { 
+    return std::visit([&](auto &r) -> RawRange<std::any> {
         return r | ranges::views::transform([](auto && v) -> std::any {
             return std::forward<decltype(v)>(v);
         });

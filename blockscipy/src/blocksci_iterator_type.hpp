@@ -15,14 +15,14 @@
 #include <blocksci/chain/block.hpp>
 #include <blocksci/cluster/cluster.hpp>
 
-#include <mpark/variant.hpp>
+#include <variant>
 
 #include <pybind11/pybind11.h>
 
 #include <any>
 #include <chrono>
 
-using BlocksciIteratorTypeVariant = mpark::variant<
+using BlocksciIteratorTypeVariant = std::variant<
 	RawIterator<blocksci::Block>,
 	RawIterator<blocksci::Transaction>,
 	RawIterator<blocksci::Input>,

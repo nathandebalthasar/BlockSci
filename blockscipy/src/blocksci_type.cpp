@@ -37,7 +37,7 @@ struct BlocksciTypeObjectCaster {
     }
 
     pybind11::object operator()(const blocksci::AnyScript &o) {
-        return mpark::visit([](const auto &r) -> pybind11::object {
+        return std::visit([](const auto &r) -> pybind11::object {
             return pybind11::cast(r);
         }, o.wrapped);
     }
@@ -69,23 +69,23 @@ struct BlocksciTypeEqual {
 };
 
 std::any BlocksciType::toAny() const {
-    return mpark::visit([&](auto &r) -> std::any { return r; }, var);
+    return std::visit([&](auto &r) -> std::any { return r; }, var);
 }
 
 pybind11::object BlocksciType::toObject() const {
-    return mpark::visit(BlocksciTypeObjectCaster{}, var);
+    return std::visit(BlocksciTypeObjectCaster{}, var);
 }
 
 bool BlocksciType::operator==(const BlocksciType &o) const {
-    return mpark::visit(BlocksciTypeEqual{}, var, o.var);
+    return std::visit(BlocksciTypeEqual{}, var, o.var);
 }
 
 void addToList(pybind11::list &l, BlocksciType &it) {
-    return mpark::visit([&](auto &r) { l.append(r); }, it.var);
+    return std::visit([&](auto &r) { l.append(r); }, it.var);
 }
 
 namespace std {
     size_t hash<BlocksciType>::operator()(const BlocksciType &o) const {
-        return mpark::visit(BlocksciTypeHasher{}, o.var);
+        return std::visit(BlocksciTypeHasher{}, o.var);
     }
 }

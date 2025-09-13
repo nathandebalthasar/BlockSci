@@ -7,9 +7,6 @@
 [submodule "libs/dset"]
 	path = external/dset
 	url = https://github.com/wjakob/dset.git
-[submodule "libs/variant"]
-	path = external/variant
-	url = https://github.com/mpark/variant.git
 [submodule "libs/range-v3"]
 	path = external/range-v3
 	url = https://github.com/ericniebler/range-v3.git

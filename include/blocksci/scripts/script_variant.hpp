@@ -18,7 +18,7 @@
 
 #include <blocksci/blocksci_export.h>
 
-#include <mpark/variant.hpp>
+#include <variant>
 
 namespace blocksci {
     class BLOCKSCI_EXPORT AnyScript {
@@ -29,15 +29,15 @@ namespace blocksci {
         AnyScript(const ScriptVariant &var) : wrapped(var) {}
 
         uint32_t getScriptNum() const {
-            return mpark::visit([&](auto &scriptAddress) { return scriptAddress.getScriptNum(); }, wrapped);
+            return std::visit([&](auto &scriptAddress) { return scriptAddress.getScriptNum(); }, wrapped);
         }
 
         AddressType::Enum getType() const {
-            return mpark::visit([&](auto &scriptAddress) { return scriptAddress.getType(); }, wrapped);
+            return std::visit([&](auto &scriptAddress) { return scriptAddress.getType(); }, wrapped);
         }
 
         std::string fullType() const {
-            return mpark::visit([&](auto &scriptAddress) { return scriptAddress.fullType(); }, wrapped);
+            return std::visit([&](auto &scriptAddress) { return scriptAddress.fullType(); }, wrapped);
         }
         
         bool operator==(const AnyScript& other) const {
@@ -65,36 +65,36 @@ namespace blocksci {
         }
         
         std::string toString() const {
-            return mpark::visit([&](auto &scriptAddress) { return scriptAddress.toString(); }, wrapped);
+            return std::visit([&](auto &scriptAddress) { return scriptAddress.toString(); }, wrapped);
         }
         
         std::string toPrettyString() const {
-            return mpark::visit([&](auto &scriptAddress) { return scriptAddress.toPrettyString(); }, wrapped);
+            return std::visit([&](auto &scriptAddress) { return scriptAddress.toPrettyString(); }, wrapped);
         }
         
         void visitPointers(const std::function<void(const Address &)> &func) {
-            mpark::visit([&](auto &scriptAddress) { scriptAddress.visitPointers(func); }, wrapped);
+            std::visit([&](auto &scriptAddress) { scriptAddress.visitPointers(func); }, wrapped);
         }
         
         uint32_t firstTxIndex() {
-            return mpark::visit([&](auto &scriptAddress) { return scriptAddress.getFirstTxIndex(); }, wrapped);
+            return std::visit([&](auto &scriptAddress) { return scriptAddress.getFirstTxIndex(); }, wrapped);
         }
         
         ranges::optional<uint32_t> txRevealedIndex() {
-            return mpark::visit([&](auto &scriptAddress) { return scriptAddress.getTxRevealedIndex(); }, wrapped);
+            return std::visit([&](auto &scriptAddress) { return scriptAddress.getTxRevealedIndex(); }, wrapped);
         }
 
         Transaction getFirstTransaction() const;
         ranges::optional<Transaction> getTransactionRevealed() const;
 
         bool hasBeenSpent() const {
-            return mpark::visit([&](auto &scriptAddress) { return scriptAddress.hasBeenSpent(); }, wrapped);
+            return std::visit([&](auto &scriptAddress) { return scriptAddress.hasBeenSpent(); }, wrapped);
         }
     
         EquivAddress getEquivAddresses(bool nestedEquivalent) const;
         
         auto getOutputPointers() {
-            return mpark::visit([&](auto &scriptAddress) { return scriptAddress.getOutputPointers(); }, wrapped);
+            return std::visit([&](auto &scriptAddress) { return scriptAddress.getOutputPointers(); }, wrapped);
         }
         
         int64_t calculateBalance(BlockHeight height) const;

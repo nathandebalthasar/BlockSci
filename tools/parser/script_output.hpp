@@ -15,7 +15,7 @@
 
 #include <internal/script_view.hpp>
 
-#include <mpark/variant.hpp>
+#include <variant>
 
 template<blocksci::AddressType::Enum type>
 struct ScriptOutput {
@@ -200,7 +200,7 @@ struct ScriptOutputData<blocksci::AddressType::Enum::WITNESS_UNKNOWN> : public S
     blocksci::ArbitraryLengthData<blocksci::WitnessUnknownScriptData> getData(uint32_t txNum, bool topLevel) const;
 };
 
-using ScriptOutputType = blocksci::to_variadic_t<blocksci::to_address_tuple_t<ScriptOutput>, mpark::variant>;
+using ScriptOutputType = blocksci::to_variadic_t<blocksci::to_address_tuple_t<ScriptOutput>, std::variant>;
 
 class AnyScriptOutput {
 public:

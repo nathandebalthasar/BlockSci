@@ -27,13 +27,13 @@ using OptionalScript = ranges::optional<blocksci::ScriptAddress<type>>;
 
 template <blocksci::AddressType::Enum type>
 using OptionalScriptProxy = Proxy<OptionalScript<type>>;
-using OptionalScriptProxyVariant = blocksci::to_variadic_t<blocksci::to_address_tuple_t<OptionalScriptProxy>, mpark::variant>;
+using OptionalScriptProxyVariant = blocksci::to_variadic_t<blocksci::to_address_tuple_t<OptionalScriptProxy>, std::variant>;
 
 template<blocksci::AddressType::Enum type>
 struct ProxyScriptWithTypeFunctor {
     static OptionalScriptProxyVariant f(Proxy<blocksci::AnyScript> &p) {
     	return lift(p, [=](blocksci::AnyScript && address) -> OptionalScript<type> {
-    		auto script = mpark::get_if<blocksci::ScriptAddress<type>>(&address.wrapped);
+    		auto script = std::get_if<blocksci::ScriptAddress<type>>(&address.wrapped);
 	    	if (script) {
 	    		return OptionalScript<type>{*script};
 	    	} else {
