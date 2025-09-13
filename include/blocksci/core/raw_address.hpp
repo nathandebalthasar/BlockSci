@@ -12,6 +12,7 @@
 #include <blocksci/core/address_types.hpp>
 
 #include <functional>
+#include <cstdint>
 
 namespace blocksci {
     struct BLOCKSCI_EXPORT RawAddress {

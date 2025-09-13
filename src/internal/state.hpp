@@ -10,7 +10,10 @@
 
 #include <blocksci/core/dedup_address_type.hpp>
 
+#include <cstdint>
 #include <array>
+#include <ostream>
+#include <istream>
 
 namespace blocksci {
     class ChainAccess;

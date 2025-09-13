@@ -12,6 +12,7 @@
 #include <cstring>
 #include <functional>
 #include <string>
+#include <cstdint>
 
 namespace blocksci {
     

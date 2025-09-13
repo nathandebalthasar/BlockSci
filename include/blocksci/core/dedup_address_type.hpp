@@ -8,6 +8,8 @@
 #ifndef dedup_address_type_hpp
 #define dedup_address_type_hpp
 
+#include <functional>
+
 #include <blocksci/blocksci_export.h>
 
 #include <blocksci/core/meta.hpp>

@@ -6,10 +6,16 @@ set_property(GLOBAL PROPERTY ranges_headers "${CMAKE_CURRENT_SOURCE_DIR}/range-v
 set_property(GLOBAL PROPERTY variant_headers "${CMAKE_CURRENT_SOURCE_DIR}/variant/include/")
 
 add_library(variant INTERFACE)
-target_include_directories(variant INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/variant/include/)
+target_include_directories(variant
+        SYSTEM
+        INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/variant/include/
+)
 
 add_library(ranges INTERFACE)
-target_include_directories(ranges INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/range-v3/include/)
+target_include_directories(ranges
+        SYSTEM
+        INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/range-v3/include/
+)
 
 add_library(filesystem INTERFACE)
 target_include_directories(filesystem INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/filesystem/include/)
@@ -109,9 +115,15 @@ option(WITH_ZSTD "" OFF)
 
 add_subdirectory(rocksdb EXCLUDE_FROM_ALL)
 
+# target_compile_options(rocksdb PRIVATE -include system_error)
+
 add_library(rocksdb_headers INTERFACE)
 target_include_directories(rocksdb_headers SYSTEM INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/rocksdb/include)
 
 set(CMAKE_CXX_FLAGS "${saved_flags}")
+
+# target_compile_options(rocksdb PRIVATE -include cstdint -Wno-error=range-loop-construct)
+target_compile_options(rocksdb PRIVATE -Wno-error=range-loop-construct)
+target_precompile_headers(rocksdb PRIVATE <cstdint> <system_error>)
 
 add_subdirectory(bitcoin-api-cpp EXCLUDE_FROM_ALL)

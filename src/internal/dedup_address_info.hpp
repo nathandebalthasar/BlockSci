@@ -13,6 +13,8 @@
 #include <blocksci/core/meta.hpp>
 
 #include <vector>
+#include <stdexcept>
+#include <string>
 
 namespace blocksci {
     template <DedupAddressType::Enum>
